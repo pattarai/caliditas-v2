@@ -13,7 +13,7 @@ wlan = network.WLAN(network.STA_IF)
 wlan.active(True)
 if not wlan.isconnected():
     print('connecting to network...')
-    wlan.connect('Phantom', '8754462663')
+    wlan.connect('PhantomNode01', 'skywalker')
     while not wlan.isconnected():
         pass
 print('network config:', wlan.ifconfig())
