@@ -32,7 +32,7 @@ from routes import users
 @app.route('/')
 def home_page():
     try:
-        res = "<h1 style='position: fixed; top: 50%;  left: 50%; transform: translate(-50%, -50%);text-align:center'>FLASK API HOME<p>If you are seeing this page, Good Job. Your Flask app is ready! Add your endpoints in the /routes directory.</p></h1>"
+        res = "<h1 style='position: fixed; top: 50%;  left: 50%; transform: translate(-50%, -50%);text-align:center'>CALIDITAS API<p>If you are seeing this page, Good Job. Your Flask app is ready! Add your endpoints in the /routes directory.</p></h1>"
         return res
 
     except Exception as e:
