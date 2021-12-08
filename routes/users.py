@@ -5,20 +5,18 @@ from config import mysql
 from flask import jsonify, request
 
 
-@app.route('/scan', methods=['POST','GET'])
+@app.route('/scan')
 def insert_temp():
     try:
-        _fname = request.args.get('fname')
-        _lname = request.args.get('lname')
-        _regno = request.args.get('regno')
+        _rollno = request.args.get('rollno')
         _deviceId = request.args.get('deviceId')
         _temp = request.args.get('temp')
         
 
-        if  _fname and _lname and _regno  and _deviceId and _temp and request.method == 'POST':
+        if  _rollno  and _deviceId and _temp and request.method == 'POST':
             conn = mysql.connect()
             cursor = conn.cursor()
-            cursor.execute(f"INSERT INTO users(f_name,l_name,reg_num,dev_id,temp) VALUES('{_fname}','{_lname}','{_regno}','{_deviceId}','{_temp}')")
+            cursor.execute(f"INSERT INTO users(roll_no,dev_id,temp) VALUES('{_rollno}','{_deviceId}','{_temp}')")
             conn.commit()
             cursor.close()
             conn.close()
