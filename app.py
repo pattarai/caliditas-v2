@@ -25,6 +25,7 @@ import error_handles
 
 # Add your API endpoints here
 from routes import users
+from routes import util
 # from routes import cars
 # ...
 

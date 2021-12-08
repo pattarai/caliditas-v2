@@ -49,3 +49,4 @@ def get_users():
     except Exception as e:
         print(e)
         return jsonify({"message" : 'failed in exception'})
+
