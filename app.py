@@ -25,7 +25,6 @@ import error_handles
 
 # Add your API endpoints here
 from routes import temp
-from routes import util
 
 
 @app.route('/')
