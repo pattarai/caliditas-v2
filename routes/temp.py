@@ -47,7 +47,7 @@ def get_users():
         conn.commit()
         cursor.close()
         conn.close()
-        return jsonify({"users": str(data)})
+        return jsonify({"users": data})
     except Exception as e:
         print(e)
         return jsonify({"message": 'failed in exception'})
