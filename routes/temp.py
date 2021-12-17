@@ -26,13 +26,16 @@ def insert_temp():
             conn.commit()
             cursor.close()
             conn.close()
-            # Send user data to management through Telegram
-            file = request.files['image']
-            file.save('buffer.jpg')
-            image = {"photo": open("./buffer.jpg", "rb")}
-            bot_token = os.environ['BOT_TOKEN']
-            chat_id = os.environ['CHAT_ID']
-            requests.post(f"https://api.telegram.org/bot{chat_id}/sendPhoto?chat_id={bot_token}&caption=Caliditas", files=image)
+            try:
+                # Send user data to management through Telegram
+                file = request.files['image']
+                file.save('buffer.jpg')
+                image = {"photo": open("./buffer.jpg", "rb")}
+                bot_token = os.environ['BOT_TOKEN']
+                chat_id = os.environ['CHAT_ID']
+                requests.post(f"https://api.telegram.org/bot{chat_id}/sendPhoto?chat_id={bot_token}&caption=Caliditas", files=image)
+            except Exception as e:
+                print("Nope")
 
             res = jsonify({"message": 'success'})
             res.status_code = 200
