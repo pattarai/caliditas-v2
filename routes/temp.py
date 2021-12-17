@@ -1,4 +1,6 @@
 import pymysql
+import requests
+import os
 from app import app
 from error_handles import forbidden
 from config import mysql
@@ -7,14 +9,14 @@ from pytz import timezone
 from datetime import datetime
 
 
-@app.route('/scan')
+@app.route('/scan', methods=["POST"])
 def insert_temp():
     local_time = datetime.now(timezone("Asia/Kolkata")).strftime('%H:%M:%S')
     local_date = datetime.now(timezone("Asia/Kolkata")).strftime('%Y-%m-%d')
     try:
-        _rollno = request.args.get('rollno')
-        _deviceId = request.args.get('deviceId')
-        _temp = request.args.get('temp')
+        _rollno = request.form['rollno']
+        _deviceId = request.form['deviceId']
+        _temp = request.form['temp']
 
         if _rollno and _deviceId and _temp:
             conn = mysql.connect()
@@ -24,6 +26,14 @@ def insert_temp():
             conn.commit()
             cursor.close()
             conn.close()
+            # Send user data to management through Telegram
+            file = request.files['image']
+            file.save('buffer.jpg')
+            image = {"photo": open("./buffer.jpg", "rb")}
+            bot_token = os.environ['BOT_TOKEN']
+            chat_id = os.environ['CHAT_ID']
+            requests.post(f"https://api.telegram.org/bot{chat_id}/sendPhoto?chat_id={bot_token}&caption=Caliditas", files=image)
+
             res = jsonify({"message": 'success'})
             res.status_code = 200
             return res
