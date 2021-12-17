@@ -35,7 +35,8 @@ def insert_temp():
                 chat_id = os.environ['CHAT_ID']
                 print(chat_id)
                 print(bot_token)
-                requests.post(f"https://api.telegram.org/bot{chat_id}/sendPhoto?chat_id={bot_token}&caption=Caliditas", files=image)
+                a = requests.post(f"https://api.telegram.org/bot{bot_token}/sendPhoto?chat_id={chat_id}&caption=Caliditas", files=image)
+                print("request: ", a)
             except Exception as e:
                 print("Nope")
 
