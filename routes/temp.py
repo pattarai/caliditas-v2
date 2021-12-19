@@ -33,9 +33,7 @@ def insert_temp():
                 image = {"photo": open("./buffer.jpg", "rb")}
                 bot_token = os.environ['BOT_TOKEN']
                 chat_id = os.environ['CHAT_ID']
-                print(chat_id)
-                print(bot_token)
-                response = requests.post(f"https://api.telegram.org/bot{bot_token}/sendPhoto?chat_id={chat_id}&caption=ROLLNO", files=image)
+                response = requests.post(f"https://api.telegram.org/bot{bot_token}/sendPhoto?chat_id={chat_id}&caption=Roll%20No:%20{_rollno}%0D%0ADevice%20ID:%20{_deviceId}%0D%0ATemperature:%20{_temp}", files=image)
             except Exception as e:
                 print("Data not sent")
 
