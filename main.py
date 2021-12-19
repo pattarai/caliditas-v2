@@ -111,8 +111,10 @@ try:
                                                                     oledDisplay.show()
                                                                     time.sleep_ms(
                                                                         1000)
-                                                                    response = requests.get(
-                                                                        "https://caliditas.herokuapp.com/scan?rollno=19IT049&deviceId=3&temp=" + str(temperature))
+                                                                    url = 'http://caliditas.herokuapp.com/scan'
+                                                                    data = {"rollno": "20IT055", "deviceId": "1", "temp": str(temperature)}
+                                                                    file = {'image': open('buffer.png', 'rb')}
+                                                                    response = requests.post(url, data=data, files=file)
                                                                     oledDisplay.fill(
                                                                         0)
                                                                     oledDisplay.text(
