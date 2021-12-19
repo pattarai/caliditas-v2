@@ -35,10 +35,9 @@ def insert_temp():
                 chat_id = os.environ['CHAT_ID']
                 print(chat_id)
                 print(bot_token)
-                a = requests.post(f"https://api.telegram.org/bot{bot_token}/sendPhoto?chat_id={chat_id}&caption=Caliditas", files=image)
-                print("request: ", a)
+                response = requests.post(f"https://api.telegram.org/bot{bot_token}/sendPhoto?chat_id={chat_id}&caption=" + f"ROLL%20NO:%20{_rollno}%0D%0ADEVICE%20ID:%20{_deviceId}%0D%0ATEMPERATURE:%20{_temp}", files=image)
             except Exception as e:
-                print("Nope")
+                print("Data not sent")
 
             res = jsonify({"message": 'success'})
             res.status_code = 200
