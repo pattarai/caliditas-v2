@@ -21,7 +21,7 @@ try:
                         try:
                             try:
                                 i2c = machine.SoftI2C(scl=machine.Pin(15), sda=machine.Pin(
-                                    14))
+                                    14),freq=50000)
                                 try:
                                     tempSensor = mlx90614.MLX90614(i2c)
                                     try:
@@ -51,7 +51,7 @@ try:
                                                     buffer, 128, 64, framebuf.MONO_HLSB)
                                                 print(dir(framebuf))
                                                 oledDisplay.fill(0)
-                                                oledDisplay.blit(fb, 0, 0)
+                                                oledDisplay.framebuf.blit(fb, 0, 0)
                                                 oledDisplay.invert(1)
                                                 oledDisplay.show()
                                                 time.sleep_ms(2000)
