@@ -35,7 +35,6 @@ try:
 
                                                 fb = framebuf.FrameBuffer(
                                                     buffer, 128, 64, framebuf.MONO_HLSB)
-                                                print(dir(framebuf))
                                                 oledDisplay.fill(0)
                                                 oledDisplay.framebuf.blit(fb, 0, 0)
                                                 oledDisplay.invert(1)
@@ -64,18 +63,11 @@ try:
                                                 wlan.active(True)
                                                 if not wlan.isconnected():
                                                     print('connecting to network...')
-                                                    wlan.connect('PhantomNode01', 'skywalker')
+                                                    wlan.connect('jesinthan', 'jesinthan')
                                                     while not wlan.isconnected():
-                                                        print("not-connected")
                                                         pass
-                                                #connectToNetwork()
-                                                #wlan = wifimgr.get_connection()
-                                                #if wlan is None:
-                                                #    print(
-                                                #        "Could not initialize the network connection.")
-                                                    # connectToNetwork()
-                                                #    while True:
-                                                #       pass  # Wait for network to connect
+                                                if wlan.isconnected():
+                                                    print('connected')
                                             except:
                                                 print("WIFI MANAGER ERROR")
                                             
@@ -87,8 +79,9 @@ try:
                                             except:
                                                 print(
                                                     "Buzzer Pin Initialize Error")
-                                            while True:
-                                                try:
+
+                                            try:
+                                                while True:
                                                     proximitySensor = HCSR04(trigger_pin=2, echo_pin=13, echo_timeout_us=10000)
                                                     distance = proximitySensor.distance_cm()
                                                     print(
@@ -159,9 +152,10 @@ try:
                                                             "NO ONE HERE", 15, 20)
                                                         oledDisplay.show()
                                                         time.sleep_ms(500)
-                                                except:
-                                                    print(
-                                                        "Error in Reading Proximity")
+                                            except:
+                                                print(
+                                                    "Error in Reading Proximity")
+                                                time.sleep_ms(2000)
 
                                         except:
                                             print("Network Connection Error")
@@ -190,31 +184,3 @@ try:
         print("OLED Display Driver Import Error")
 except:
     print("IR Thermistor Driver Import Error")
-
-
-
-def connectToNetwork():
-    wlan = network.WLAN(network.STA_IF)
-    wlan.active(True)
-    if not wlan.isconnected():
-        print('connecting to network...')
-        try:
-            wlan.connect('PhantomNode01', 'skywalker')
-            while not wlan.isconnected():
-                pass
-        except:
-            print("Could not connect to PhantomNode01")
-            try:
-                wlan.connect('Phantom', '8754462663')
-                while not wlan.isconnected():
-                    pass
-            except:
-                print("Could not connect to Phantom")
-                try:
-                    wlan.connect('LICET WIFI', 'Licet@#786')
-                    while not wlan.isconnected():
-                        pass
-                except:
-                    print("Could not connect to LICET WIFI")
-                        
-
