@@ -17,6 +17,7 @@ def insert_temp():
         _rollno = request.form['rollno']
         _deviceId = request.form['deviceId']
         _temp = request.form['temp']
+        _imageBytes = request.form['imageBytes']
 
         if _rollno and _deviceId and _temp:
             conn = mysql.connect()
@@ -28,12 +29,15 @@ def insert_temp():
             conn.close()
             try:
                 # Send user data to management through Telegram
-                file = request.files['image']
-                file.save('buffer.jpg')
-                image = {"photo": open("./buffer.jpg", "rb")}
+                #file = request.files['image']
+                #file.save('buffer.jpg')
+                #image = {"photo": open("./buffer.jpg", "rb")}
                 bot_token = os.environ['BOT_TOKEN']
                 chat_id = os.environ['CHAT_ID']
-                response = requests.post(f"https://api.telegram.org/bot{bot_token}/sendPhoto?chat_id={chat_id}&caption=Roll%20No:%20{_rollno}%0D%0ADevice%20ID:%20{_deviceId}%0D%0ATemperature:%20{_temp}", files=image)
+                #imgFile = open("test12.jpeg", "wb+")
+                #imgFile.write(_imageBytes)
+                response = requests.post(f"https://api.telegram.org/bot{bot_token}/sendMessage?chat_id={chat_id}&text=Roll%20No:%20{_rollno}%0D%0ADevice%20ID:%20{_deviceId}%0D%0ATemperature:%20{_imageBytes}")
+                #imgFile.close()
             except Exception as e:
                 print("Data not sent")
 
