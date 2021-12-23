@@ -36,8 +36,8 @@ try:
                                                 fb = framebuf.FrameBuffer(
                                                     buffer, 128, 64, framebuf.MONO_HLSB)
                                                 oledDisplay.fill(0)
-                                                oledDisplay.framebuf.blit(fb, 0, 0)
-                                                oledDisplay.invert(1)
+                                                oledDisplay.framebuf.blit(fb, 0, -10)
+                                                oledDisplay.invert(0)
                                                 oledDisplay.show()
                                                 time.sleep_ms(2000)
 
@@ -55,9 +55,9 @@ try:
                                             try:
                                                 oledDisplay.fill(0)
                                                 oledDisplay.text(
-                                                    "CONNECT WIFI AT", 0, 20)
+                                                    "WAITING FOR WIFI", 0, 20)
                                                 oledDisplay.text(
-                                                    "192.168.4.1", 20, 40)
+                                                    "jesinthan", 20, 40)
                                                 oledDisplay.show()
                                                 wlan = network.WLAN(network.STA_IF)
                                                 wlan.active(True)
@@ -82,76 +82,75 @@ try:
 
                                             try:
                                                 while True:
-                                                    proximitySensor = HCSR04(trigger_pin=2, echo_pin=13, echo_timeout_us=10000)
-                                                    distance = proximitySensor.distance_cm()
-                                                    print(
-                                                        "Distance: " + distance)
-                                                    if distance < 40 and distance > 0:
-                                                        try:
-                                                            temperature = tempSensor.read_object_temp()
-                                                            # Fahrenheit Conversion & Temperature Offset for Distance
-                                                            temperature = (
-                                                                (float(temperature) * 9 / 5) + 32) + 12
-                                                            print(
-                                                                "Temperature: " + temperature)
-
-                                                            oledDisplay.fill(0)
-                                                            oledDisplay.text(
-                                                                str(temperature), 35, 0)
-                                                            oledDisplay.show()
-
-                                                            if temperature > 99 and temperature < 120:
-                                                                buzzer.value(1)
+                                                    try:
+                                                        proximitySensor = HCSR04(trigger_pin=2, echo_pin=13, echo_timeout_us=10000)
+                                                    except:
+                                                        print("PROXIMITY SENSOR INIT ERROR")
+                                                    try:
+                                                        distance = proximitySensor.distance_cm()
+                                                        if distance < 40 and distance > 30:
+                                                            try:
+                                                                temperature = tempSensor.read_object_temp()
+                                                                # Fahrenheit Conversion & Temperature Offset for Distance
+                                                                temperature = (
+                                                                    (float(temperature) * 9 / 5) + 32) + 12
+                                                                print(temperature)
+                                                                
+                                                                oledDisplay.fill(0)
                                                                 oledDisplay.text(
-                                                                    "ALERT!!", 20, 20)
-                                                                oledDisplay.text(
-                                                                    "GO BACK FOR PIC", 0, 40)
+                                                                    str(temperature), 35, 0)
                                                                 oledDisplay.show()
 
-                                                                try:  # Insert Temperature to DB
-                                                                    oledDisplay.fill(
-                                                                        0)
+                                                                if temperature > 99 and temperature < 120:
+                                                                    #buzzer.value(1)
                                                                     oledDisplay.text(
-                                                                        "INSERTING", 20, 20)
+                                                                        "ALERT!!", 20, 20)
                                                                     oledDisplay.text(
-                                                                        "TO DB", 0, 40)
+                                                                        "GO BACK FOR PIC", 0, 40)
+                                                                    oledDisplay.show()
+
+                                                                    try:  # Insert Temperature to DB
+                                                                        oledDisplay.fill(
+                                                                            0)
+                                                                        oledDisplay.text(
+                                                                            "INSERTING", 20, 20)
+                                                                        oledDisplay.text(
+                                                                            "TO DB", 0, 40)
+                                                                        oledDisplay.show()
+                                                                        time.sleep_ms(
+                                                                            1000)
+                                                                       
+                                                                        oledDisplay.fill(
+                                                                            0)
+                                                                        oledDisplay.text(
+                                                                            "ALERTING", 20, 20)
+                                                                        oledDisplay.text(
+                                                                            "OFFICIALS", 0, 40)
+                                                                        oledDisplay.show()
+                                                                        time.sleep_ms(
+                                                                            500)
+
+                                                                    except:
+                                                                        print("API ERROR")
+                                                                else:
+                                                                    #buzzer.value(0)
+                                                                    oledDisplay.text(
+                                                                        "YOU MAY PASS", 15, 20)
                                                                     oledDisplay.show()
                                                                     time.sleep_ms(
                                                                         1000)
-                                                                    url = 'http://caliditas.herokuapp.com/scan'
-                                                                    data = {"rollno": "20IT055", "deviceId": "1", "temp": str(temperature)}
-                                                                    file = {'image': open('buffer.png', 'rb')}
-                                                                    response = requests.post(url, data=data, files=file)
-                                                                    oledDisplay.fill(
-                                                                        0)
-                                                                    oledDisplay.text(
-                                                                        "ALERTING", 20, 20)
-                                                                    oledDisplay.text(
-                                                                        "OFFICIALS", 0, 40)
-                                                                    oledDisplay.show()
-                                                                    time.sleep_ms(
-                                                                        500)
+                                                            except:
+                                                                print(
+                                                                    "Error in Reading Temperature")
 
-                                                                except:
-                                                                    print(
-                                                                        "DB ERROR")
-                                                            else:
-                                                                buzzer.value(0)
-                                                                oledDisplay.text(
-                                                                    "YOU MAY PASS", 15, 20)
-                                                                oledDisplay.show()
-                                                                time.sleep_ms(
-                                                                    1000)
-                                                        except:
-                                                            print(
-                                                                "Error in Reading Temperature")
-
-                                                    else:
-                                                        oledDisplay.fill(0)
-                                                        oledDisplay.text(
-                                                            "NO ONE HERE", 15, 20)
-                                                        oledDisplay.show()
-                                                        time.sleep_ms(500)
+                                                        else:
+                                                            oledDisplay.fill(0)
+                                                            oledDisplay.text(
+                                                                "NO ONE HERE", 15, 20)
+                                                            oledDisplay.show()
+                                                            time.sleep_ms(500)
+                                                    except:
+                                                        print("PROXIMITY SENSOR VALUE ERROR")
                                             except:
                                                 print(
                                                     "Error in Reading Proximity")
