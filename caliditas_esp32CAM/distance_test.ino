@@ -12,11 +12,10 @@ void setup() {
 }
 
 void loop() {
-  // Clears the trigPin
-  digitalWrite(trigPin, LOW);
-  delayMicroseconds(2);
-  // Sets the trigPin on HIGH state for 10 micro seconds
-  digitalWrite(trigPin, HIGH);
+  // Ultrasonic Pulse
+  digitalWrite(trigPin, LOW);// Clears the trigPin
+  delayMicroseconds(2); 
+  digitalWrite(trigPin, HIGH); // Sets the trigPin on HIGH state for 10 micro seconds
   delayMicroseconds(10);
   digitalWrite(trigPin, LOW);
   
@@ -27,6 +26,8 @@ void loop() {
   // Prints the distance in the Serial Monitor
   Serial.print("Distance (cm): ");
   Serial.println(distanceCm); 
+
+  // 30 is good
 
   delay(1000);
 }
